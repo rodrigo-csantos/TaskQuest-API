@@ -1,37 +1,20 @@
-const { task } = require("./db/task.model")
-
-const listAllTasks = async () => {
-    const allTasks = await task.findAll()
-    return allTasks
+const taskHandlerModel = (sequelize, DataTypes) => {
+    const taskHandler = sequelize.define('tasks', {
+        id: {
+            type: DataTypes.INTEGER,
+            autoIncrement: true,
+            allowNull: false,
+            primaryKey: true
+        },
+        taskName: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        description: DataTypes.TEXT,
+        owner: DataTypes.STRING,
+        status: DataTypes.STRING
+    })
+    return taskHandler
 }
 
-const taskDetails =  async (id)=> {
-    const taskDetailsById = await task.findOne({where:{id}})
-    return taskDetailsById
-}
-
-const createTask = async (taskData)=> {
-    const newTask = await task.create(taskData)
-    return newTask
-}
-
-const updateTaskStatus = async (taskStatus, id)=> {
-    const taskUpdated = await task.findOne({where: {id}})
-    taskUpdated.status = taskStatus
-    taskUpdated.save()
-    
-    return taskUpdated.affectedRows
-}
-
-const deleteTask = async (id)=> {
-    const deletedTask = await task.destroy({where: {id}})
-    return deletedTask
-}
-
-module.exports = {
-    listAllTasks,
-    taskDetails,
-    createTask,
-    updateTaskStatus,
-    deleteTask
-}
+module.exports = taskHandlerModel

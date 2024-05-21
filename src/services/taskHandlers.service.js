@@ -1,27 +1,30 @@
-const modelsTasksHandlers = require('../models/taskHandlers.model')
+const {taskHandler} = require('../models')
 
 const listAllTasks = async () => {
-    const allTasks  = await modelsTasksHandlers.listAllTasks()
+    const allTasks = await taskHandler.findAll()
     return allTasks
 }
 
-const taskDetails = async (id) => {
-    const taskDetailsById  = await modelsTasksHandlers.taskDetails(id)
+const taskDetails =  async (id)=> {
+    const taskDetailsById = await taskHandler.findOne({where:{id}})
     return taskDetailsById
 }
 
-const createTask = async (taskData) => {
-    const newTask  = await modelsTasksHandlers.createTask(taskData)
+const createTask = async (taskData)=> {
+    const newTask = await taskHandler.create(taskData)
     return newTask
 }
 
-const updateTaskStatus = async (taskStatus, id) => {
-    const taskUpdated  = await modelsTasksHandlers.updateTaskStatus(taskStatus, id)
-    return taskUpdated
+const updateTaskStatus = async (taskStatus, id)=> {
+    const taskUpdated = await taskHandler.findOne({where: {id}})
+    taskUpdated.status = taskStatus
+    await taskUpdated.save()
+    
+    return taskUpdated.affectedRows
 }
 
-const deleteTask = async (id) => {
-    const deletedTask  = await modelsTasksHandlers.deleteTask(id)
+const deleteTask = async (id)=> {
+    const deletedTask = await taskHandler.destroy({where: {id}})
     return deletedTask
 }
 
