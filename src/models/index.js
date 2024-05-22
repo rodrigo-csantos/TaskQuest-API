@@ -1,10 +1,10 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const Sequelize = require('sequelize');
-const process = require('process');
+const process = require('node:process');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.js')[env];
+const config = require(`${__dirname}/../config/config.js`)[env];
 const db = {};
 
 let sequelize;
@@ -19,6 +19,7 @@ if (config.use_env_variable) {
 	);
 }
 
+// biome-ignore lint/complexity/noForEach: <explanation>
 fs.readdirSync(__dirname)
 	.filter((file) => {
 		return (
@@ -36,6 +37,7 @@ fs.readdirSync(__dirname)
 		db[model.name] = model;
 	});
 
+// biome-ignore lint/complexity/noForEach: <explanation>
 Object.keys(db).forEach((modelName) => {
 	if (db[modelName].associate) {
 		db[modelName].associate(db);
