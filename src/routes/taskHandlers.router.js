@@ -1,18 +1,24 @@
-const router = require('express').Router()
+const router = require('express').Router();
 
-const controllerTaskHandlers = require('../controllers/taskHandlers.controller')
+const controllerTaskHandlers = require('../controllers/taskHandlers.controller');
 
-const {validateTaskData, validateTaskstatus} = require('../middlewares/taskHandlers.middleware')
+const {
+	validateTaskData,
+	validateTaskstatus,
+} = require('../middlewares/taskHandlers.middleware');
 
-router.get('/tasks', controllerTaskHandlers.listAllTasks)
+router.get('/tasks', controllerTaskHandlers.listAllTasks);
 
-router.get('/task/:id', controllerTaskHandlers.taskDetails)
+router.get('/task/:id', controllerTaskHandlers.taskDetails);
 
-router.post('/task', validateTaskData, controllerTaskHandlers.createTask)
+router.post('/task', validateTaskData, controllerTaskHandlers.createTask);
 
-router.put('/task/:id', validateTaskstatus, controllerTaskHandlers.updateTaskStatus)
+router.put(
+	'/task/:id',
+	validateTaskstatus,
+	controllerTaskHandlers.updateTaskStatus,
+);
 
-router.delete('/task/:id', controllerTaskHandlers.deleteTask)
+router.delete('/task/:id', controllerTaskHandlers.deleteTask);
 
-module.exports = router
-    
+module.exports = router;
