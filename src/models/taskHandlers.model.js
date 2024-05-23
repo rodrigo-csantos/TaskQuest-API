@@ -11,7 +11,7 @@ const taskHandlerModel = (sequelize, DataTypes) => {
 			allowNull: false,
 		},
 		description: DataTypes.TEXT,
-		owner: DataTypes.STRING,
+		owner: DataTypes.INTEGER,
 		status: DataTypes.STRING,
 	});
 	return taskHandler;
