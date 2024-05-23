@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "biomeFormat": "npx @biomejs/biome format --write ./src",
+    "biomeLint": "npx @biomejs/biome lint --apply ./src"
   },
   "keywords": [],
   "author": "",
