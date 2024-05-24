@@ -6,23 +6,33 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 
 ### Pré-requisitos
 
-- [Node.js](https://nodejs.org/)
-- [MySQL](https://www.mysql.com/)
+- [Node.js](https://nodejs.org/) : Você precisará do Node.js para executar a aplicação:
+    - [Tutorial de Instalação no Windows](https://www.youtube.com/watch?v=-jft_9PlffQ)
+    - [Tutorial de Instalação no macOS](https://www.youtube.com/watch?v=YLO1FBIxgW4)
+    - [Tutorial de Instalação no Linux](https://www.youtube.com/watch?v=B9Hd11RT7Bk)
+- [MySQL](https://www.mysql.com/) : O MySQL é necessário para configurar o banco de dados:
+    - [Tutorial de Instalação no Windows](https://www.youtube.com/watch?v=s0YoPLbox40)
+    - [Tutorial de Instalação no macOS](https://www.youtube.com/watch?v=d32n6lWTpn0)
+    - [Tutorial de Instalação no Linux](https://www.youtube.com/watch?v=MtobMajasQM)
 
 ### Passos para Configuração
 
 1. **Clonar o Repositório**:
     ```bash
     git clone git@github.com:rodrigo-csantos/TaskQuest-API.git
+    ```
+
+2. **Entre na pasta do repositório que você acabou de clonar:**:
+    ```bash
     cd TaskQuest-API
     ```
 
-2. **Instalar Dependências**:
+3. **Instalar Dependências**:
     ```bash
     npm install
     ```
 
-3. **Configurar o Banco de Dados**:
+4. **Configurar o Banco de Dados**:
 
     1. **Configurar Variáveis de Ambiente**:
         - Crie um arquivo `.env` na raiz do projeto.
