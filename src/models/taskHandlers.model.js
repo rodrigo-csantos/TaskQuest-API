@@ -11,9 +11,39 @@ const taskHandlerModel = (sequelize, DataTypes) => {
 			allowNull: false,
 		},
 		description: DataTypes.TEXT,
-		owner: DataTypes.INTEGER,
-		status: DataTypes.STRING,
+		status: {
+			type: DataTypes.STRING,
+			allowNull: false,
+		},
+		owner: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			references: {
+				model: 'users',
+				key: 'id',
+			},
+			onUpdate: 'CASCADE',
+			onDelete: 'CASCADE',
+		},
+		createdAt: {
+			type: DataTypes.DATE,
+			allowNull: false,
+			defaultValue: DataTypes.NOW,
+		},
+		updatedAt: {
+			type: DataTypes.DATE,
+			allowNull: false,
+			defaultValue: DataTypes.NOW,
+		},
 	});
+
+	taskHandler.associate = (models) => {
+		taskHandler.belongsTo(models.users, {
+			foreignKey: 'owner',
+			onDelete: 'CASCADE',
+			onUpdate: 'CASCADE',
+		});
+	};
 	return taskHandler;
 };
 

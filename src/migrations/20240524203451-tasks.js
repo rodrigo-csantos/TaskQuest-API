@@ -4,27 +4,34 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
 	async up(queryInterface, Sequelize) {
-		await queryInterface.createTable('users', {
+		await queryInterface.createTable('tasks', {
 			id: {
 				type: Sequelize.INTEGER,
 				autoIncrement: true,
 				allowNull: false,
 				primaryKey: true,
 			},
-			userName: {
+			taskName: {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
-			email: {
-				type: Sequelize.STRING,
-				allowNull: false,
-				unique: true,
+			description: {
+				type: Sequelize.TEXT,
 			},
-			password: {
+			status: {
 				type: Sequelize.STRING,
 				allowNull: false,
 			},
-			idAvatar: Sequelize.INTEGER,
+			owner: {
+				type: Sequelize.INTEGER,
+				allowNull: false,
+				references: {
+					model: 'users',
+					key: 'id',
+				},
+				onUpdate: 'CASCADE',
+				onDelete: 'CASCADE',
+			},
 			createdAt: {
 				type: Sequelize.DATE,
 				allowNull: false,
@@ -39,6 +46,6 @@ module.exports = {
 	},
 
 	async down(queryInterface, Sequelize) {
-		await queryInterface.dropTable('users');
+		await queryInterface.dropTable('tasks');
 	},
 };
