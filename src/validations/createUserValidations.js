@@ -6,6 +6,7 @@ const userData = Joi.object({
 	password: Joi.string()
 		.pattern(/^(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,15}$/)
 		.required(),
+	idAvatar: Joi.number().integer().required(),
 });
 
 module.exports = {

@@ -18,6 +18,7 @@ const usersModel = (sequelize, DataTypes) => {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
+		idAvatar: DataTypes.INTEGER,
 	});
 	return users;
 };
