@@ -24,14 +24,7 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 
 3. **Configurar o Banco de Dados**:
 
-    1. **Criar Banco de Dados no MySQL**:
-        - Conecte-se ao MySQL usando seu cliente preferido (como `mysql` no terminal ou uma ferramenta GUI como o MySQL Workbench).
-        - Crie o banco de dados:
-          ```sql
-          CREATE DATABASE taskquest_db;
-          ```
-
-    2. **Configurar Variáveis de Ambiente**:
+    1. **Configurar Variáveis de Ambiente**:
         - Crie um arquivo `.env` na raiz do projeto.
         - Adicione as seguintes variáveis de ambiente com suas configurações de banco de dados:
           ```plaintext
@@ -42,9 +35,9 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
           PORT=3306
           ```
 
-    3. **Configurar o Sequelize**:
+    2. **Configurar o Sequelize**:
         - Edite o arquivo `config/config.js` para utilizar as variáveis de ambiente:
-          ```
+          ```javascript
             require('dotenv').config();
 
             const config = {
@@ -62,28 +55,18 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
             };
           ```
 
+    3. **Criar Banco de Dados no MySQL**:
+        - Execute o seguinte comando no terminal para criar o banco de dados usando o Sequelize:
+          ```bash
+          npx sequelize db:create
+          ```
+
     4. **Executar Migrações**:
         - Execute as migrações para criar as tabelas no banco de dados:
           ```bash
-          npx sequelize-cli db:migrate
+          npx sequelize db:migrate
           ```
-
-4. **Configurar o Biome.js**:
-    - Execute o Biome para verificar o código e aplicar correções seguras:
-      ```bash
-      npm run biomeLint
-      ```
-
-    - Para formatar o código:
-      ```bash
-      npm run biomeFormat
-      ```
 
 ## Scripts Disponíveis
 
-- `npm run biomeLint`: Verifica o código e aplicar correções seguras com Biome.js.
-- `npm run biomeFormat`: Formata o código com Biome.js.
 - `npm start`: Inicia o servidor.
-
-
-
