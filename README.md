@@ -13,8 +13,8 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 
 1. **Clonar o Repositório**:
     ```bash
-    git clone <url-do-repositorio>
-    cd gerenciador-de-tarefas
+    git clone git@github.com:rodrigo-csantos/TaskQuest-API.git
+    cd TaskQuest-API
     ```
 
 2. **Instalar Dependências**:
