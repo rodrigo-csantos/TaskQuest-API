@@ -31,6 +31,15 @@ const usersModel = (sequelize, DataTypes) => {
 			defaultValue: DataTypes.NOW,
 		},
 	});
+
+	users.associate = (models) => {
+		users.hasMany(models.tasks, {
+			foreignKey: 'owner',
+			onDelete: 'CASCADE',
+			onUpdate: 'CASCADE',
+		});
+	};
+
 	return users;
 };
 
