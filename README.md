@@ -43,6 +43,7 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
           PASSWORD=sua_senha
           DATABASE=taskquest_db
           PORT=porta para subir o server.js
+          JWT_SECRET=senha para assinatura do token JWT para autenticação
           ```
 
     2. **Criar Banco de Dados no MySQL**:

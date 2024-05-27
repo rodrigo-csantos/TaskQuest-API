@@ -1,4 +1,4 @@
-const { taskData, taskStatus } = require('../validations/taskValidations');
+const { taskData, taskStatus } = require('../validations/task.validation');
 
 const validateTaskData = (req, res, next) => {
 	const { error } = taskData.validate(req.body, { abortEarly: false });

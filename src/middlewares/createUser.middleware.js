@@ -1,4 +1,4 @@
-const { userData } = require('../validations/createUserValidations');
+const { userData } = require('../validations/createUser.validation');
 
 const validateUserData = (req, res, next) => {
 	const { error } = userData.validate(req.body, { abortEarly: false });
