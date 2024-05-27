@@ -1,7 +1,8 @@
 const serviceTaskHandlers = require('../services/taskHandlers.service');
 
-exports.listAllTasks = async (_req, res) => {
-	const allTasks = await serviceTaskHandlers.listAllTasks();
+exports.listAllTasks = async (req, res) => {
+	const id = req.userId
+	const allTasks = await serviceTaskHandlers.listAllTasks(id);
 	return res.status(200).json(allTasks);
 };
 
