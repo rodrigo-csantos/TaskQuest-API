@@ -2,9 +2,10 @@ const { tasks, users } = require('../models');
 
 const listAllTasks = async (id) => {
 	const getTasks = await users.findByPk(id, {
+		attributes: { exclude: ['password'] },
 		include: { model: tasks, as: 'tasks' },
 	});
-	return getTasks.tasks;
+	return getTasks ? getTasks.tasks : null;
 };
 
 const taskDetails = async (id) => {
