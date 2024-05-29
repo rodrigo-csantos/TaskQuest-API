@@ -14,8 +14,13 @@ const taskDetails = async (id) => {
 };
 
 const createTask = async (taskData) => {
-	const newTask = await tasks.create(taskData);
-	return newTask;
+	try {
+		const newTask = await tasks.create(taskData);
+		return newTask;
+	} catch (error) {
+		console.error('Error creating task:', error);
+		return null;
+	}
 };
 
 const updateTaskStatus = async (taskStatus, id) => {
