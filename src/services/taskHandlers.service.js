@@ -24,11 +24,15 @@ const createTask = async (taskData) => {
 };
 
 const updateTaskStatus = async (taskStatus, id) => {
-	const taskUpdated = await tasks.findOne({ where: { id } });
-	taskUpdated.status = taskStatus;
-	await taskUpdated.save();
-
-	return taskUpdated.affectedRows;
+	try {
+		const taskUpdated = await tasks.findOne({ where: { id } });
+		taskUpdated.status = taskStatus;
+		await taskUpdated.save();
+		return taskUpdated
+	} catch (error) {
+		console.error('Error updating task:', error);
+		return null;
+	}
 };
 
 const deleteTask = async (id) => {

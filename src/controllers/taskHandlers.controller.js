@@ -31,8 +31,7 @@ exports.createTask = async (req, res) => {
 
 		return res.status(201).json(newTask);
 	} catch (error) {
-		console.error('Error in createTask controller:', error);
-		return res.status(500).json({ error: 'Internal server error' });
+		return res.status(500).json({ message: error });
 	}
 };
 
@@ -43,9 +42,10 @@ exports.updateTaskStatus = async (req, res) => {
 			req.params.id,
 		);
 
-		if (taskUpdated === 0) {
+		if (!taskUpdated) {
 			return res.status(404).json({ message: 'task not found' });
 		}
+
 		return res.status(200).json({ message: 'task updated successfully' });
 	} catch (error) {
 		res.status(500).json({ message: error });
