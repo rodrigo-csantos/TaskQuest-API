@@ -38,6 +38,11 @@ const usersModel = (sequelize, DataTypes) => {
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
 		});
+		users.hasMany(models.ActivityLogs, {
+			foreignKey: 'userId',
+			onDelete: 'CASCADE',
+			onUpdate: 'CASCADE',
+		})
 	};
 
 	return users;

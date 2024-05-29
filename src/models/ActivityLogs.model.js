@@ -1,25 +1,30 @@
-const taskHandlerModel = (sequelize, DataTypes) => {
-	const taskHandler = sequelize.define('tasks', {
+const activityLogsModel = (sequelize, DataTypes) => {
+	const ActivityLogs = sequelize.define('ActivityLogs', {
 		id: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			allowNull: false,
 			primaryKey: true,
 		},
-		taskName: {
+		userId: {
+			type: DataTypes.STRING,
+			allowNull: false,
+            references: {
+				model: 'users',
+				key: 'id',
+			},
+			onUpdate: 'CASCADE',
+			onDelete: 'CASCADE',
+		},
+		action: {
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
-		description: DataTypes.TEXT,
-		status: {
-			type: DataTypes.STRING,
-			allowNull: false,
-		},
-		owner: {
+		taskId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
-			references: {
-				model: 'users',
+            references: {
+				model: 'tasks',
 				key: 'id',
 			},
 			onUpdate: 'CASCADE',
@@ -37,20 +42,20 @@ const taskHandlerModel = (sequelize, DataTypes) => {
 		},
 	});
 
-	taskHandler.associate = (models) => {
-		taskHandler.belongsTo(models.users, {
-			foreignKey: 'owner',
+	ActivityLogs.associate = (models) => {
+		ActivityLogs.belongsTo(models.users, {
+			foreignKey: 'userId',
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
 		});
-		taskHandler.hasMany(models.ActivityLogs, {
+		ActivityLogs.belongsTo(models.tasks, {
 			foreignKey: 'taskId',
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
-		})
+		});
 	};
 
-	return taskHandler;
+	return ActivityLogs;
 };
 
-module.exports = taskHandlerModel;
+module.exports = activityLogsModel;

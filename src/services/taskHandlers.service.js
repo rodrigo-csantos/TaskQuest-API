@@ -1,4 +1,8 @@
-const { tasks, users } = require('../models');
+const { ActivityLogs, tasks, users } = require('../models');
+
+const logActivity = async (userId, action, taskId) => {
+    await ActivityLogs.create({ userId, action, taskId });
+};
 
 const listAllTasks = async (id) => {
 	const getTasks = await users.findByPk(id, {
@@ -16,6 +20,7 @@ const taskDetails = async (id) => {
 const createTask = async (taskData) => {
 	try {
 		const newTask = await tasks.create(taskData);
+		await logActivity(taskData.owner, 'CREATE', newTask.id)
 		return newTask;
 	} catch (error) {
 		console.error('Error creating task:', error);
@@ -25,9 +30,10 @@ const createTask = async (taskData) => {
 
 const updateTaskStatus = async (taskStatus, id) => {
 	try {
-		const taskUpdated = await tasks.findOne({ where: { id } });
+		const taskUpdated = await tasks.findOne({ where: { id }, include: { model: users} });
 		taskUpdated.status = taskStatus;
 		await taskUpdated.save();
+		await logActivity(taskUpdated.user.id, 'UPDATE', id)
 		return taskUpdated
 	} catch (error) {
 		console.error('Error updating task:', error);
@@ -36,7 +42,8 @@ const updateTaskStatus = async (taskStatus, id) => {
 };
 
 const deleteTask = async (id) => {
-	const deletedTask = await tasks.destroy({ where: { id } });
+	const deletedTask = await tasks.destroy({ where: { id }, include: { model: users} });
+	await logActivity(deletedTask.user.id, 'DELETE', id)
 	return deletedTask;
 };
 
