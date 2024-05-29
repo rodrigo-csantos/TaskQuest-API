@@ -15,9 +15,22 @@ const validateloginData = (req, res, next) => {
 };
 
 const verifyJWT = (req, res, next) => {
-	const token = req.headers['x-acess-token'];
+	const authHeader = req.headers.authorization;
+	if (!authHeader) {
+		return res.status(401).json({ message: 'Token not provided' });
+	}
+
+	const tokenParts = authHeader.split(' ');
+	if (tokenParts[0] !== 'Bearer' || tokenParts.length !== 2) {
+		return res.status(401).json({ message: 'Malformed token' });
+	}
+
+	const token = tokenParts[1];
 	jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-		if (err) return res.status(401).json({ message: 'unauthenticated user' });
+		if (err)
+			return res
+				.status(401)
+				.json({ message: 'unauthenticated user - Invalid or expired token' });
 
 		req.userId = decoded.id;
 		next();

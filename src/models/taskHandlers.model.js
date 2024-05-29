@@ -36,6 +36,15 @@ const taskHandlerModel = (sequelize, DataTypes) => {
 			defaultValue: DataTypes.NOW,
 		},
 	});
+
+	taskHandler.associate = (models) => {
+		taskHandler.belongsTo(models.users, {
+			foreignKey: 'owner',
+			onDelete: 'CASCADE',
+			onUpdate: 'CASCADE',
+		});
+	};
+
 	return taskHandler;
 };
 

@@ -1,10 +1,10 @@
-const { tasks } = require('../models');
-const { users } = require('../models');
+const { tasks, users } = require('../models');
 
 const listAllTasks = async (id) => {
-	const getTasks = await users.findByPk(id, { include: tasks });
-	const alltasks = getTasks.tasks;
-	return alltasks
+	const getTasks = await users.findByPk(id, {
+		include: { model: tasks, as: 'tasks' },
+	});
+	return getTasks.tasks;
 };
 
 const taskDetails = async (id) => {
