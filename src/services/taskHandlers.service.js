@@ -42,8 +42,9 @@ const updateTaskStatus = async (taskStatus, id) => {
 };
 
 const deleteTask = async (id) => {
-	const deletedTask = await tasks.destroy({ where: { id }, include: { model: users} });
-	await logActivity(deletedTask.user.id, 'DELETE', id)
+	const getUserId = await tasks.findOne({ where: { id }, include: { model: users}});
+	await logActivity(getUserId.user.id, 'DELETE', id)
+	const deletedTask = await tasks.destroy({ where: { id }});
 	return deletedTask;
 };
 

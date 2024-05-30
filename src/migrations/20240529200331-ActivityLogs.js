@@ -14,7 +14,7 @@ module.exports = {
 			userId: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
-        references: {
+        		references: {
 					model: 'users',
 					key: 'id',
 				},
@@ -28,12 +28,6 @@ module.exports = {
 			taskId: {
 				type: Sequelize.INTEGER,
 				allowNull: false,
-        references: {
-					model: 'tasks',
-					key: 'id',
-				},
-				onUpdate: 'CASCADE',
-				onDelete: 'CASCADE',
 			},
 			createdAt: {
 				type: Sequelize.DATE,

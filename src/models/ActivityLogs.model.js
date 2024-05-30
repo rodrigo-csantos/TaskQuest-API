@@ -23,12 +23,6 @@ const activityLogsModel = (sequelize, DataTypes) => {
 		taskId: {
 			type: DataTypes.INTEGER,
 			allowNull: false,
-            references: {
-				model: 'tasks',
-				key: 'id',
-			},
-			onUpdate: 'CASCADE',
-			onDelete: 'CASCADE',
 		},
 		createdAt: {
 			type: DataTypes.DATE,
@@ -45,11 +39,6 @@ const activityLogsModel = (sequelize, DataTypes) => {
 	ActivityLogs.associate = (models) => {
 		ActivityLogs.belongsTo(models.users, {
 			foreignKey: 'userId',
-			onDelete: 'CASCADE',
-			onUpdate: 'CASCADE',
-		});
-		ActivityLogs.belongsTo(models.tasks, {
-			foreignKey: 'taskId',
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
 		});

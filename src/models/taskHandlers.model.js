@@ -43,11 +43,6 @@ const taskHandlerModel = (sequelize, DataTypes) => {
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
 		});
-		taskHandler.hasMany(models.ActivityLogs, {
-			foreignKey: 'taskId',
-			onDelete: 'CASCADE',
-			onUpdate: 'CASCADE',
-		})
 	};
 
 	return taskHandler;
