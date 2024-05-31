@@ -1,5 +1,6 @@
 const { loginData } = require('../validations/login.validation');
 const jwt = require('jsonwebtoken');
+const { JWTBlockLists } = require('../models');
 require('dotenv').config();
 
 const validateloginData = (req, res, next) => {
@@ -14,7 +15,7 @@ const validateloginData = (req, res, next) => {
 	next();
 };
 
-const verifyJWT = (req, res, next) => {
+const verifyJWT = async (req, res, next) => {
 	const authHeader = req.headers.authorization;
 	if (!authHeader) {
 		return res.status(401).json({ message: 'Token not provided' });
@@ -26,6 +27,18 @@ const verifyJWT = (req, res, next) => {
 	}
 
 	const token = tokenParts[1];
+	req.token = token;
+
+	const blockListed = await JWTBlockLists.findOne({
+		where: { token: token },
+	});
+
+	if (blockListed) {
+		return res
+			.status(401)
+			.json({ message: 'unauthenticated user - Invalid token' });
+	}
+
 	jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
 		if (err)
 			return res
@@ -33,6 +46,7 @@ const verifyJWT = (req, res, next) => {
 				.json({ message: 'unauthenticated user - Invalid or expired token' });
 
 		req.userId = decoded.id;
+		
 		next();
 	});
 };

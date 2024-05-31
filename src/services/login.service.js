@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { users } = require('../models');
+const { users, JWTBlockLists } = require('../models');
 const jwt = require('jsonwebtoken');
 
 const login = async (email, password) => {
@@ -15,6 +15,12 @@ const login = async (email, password) => {
 	return { loggedUser, token };
 };
 
+const logout = async (token) => {
+	const loggedOutUser = await JWTBlockLists.create({ token: token });
+	return loggedOutUser ? loggedOutUser : null;
+};
+
 module.exports = {
 	login,
+	logout,
 };

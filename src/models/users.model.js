@@ -42,7 +42,7 @@ const usersModel = (sequelize, DataTypes) => {
 			foreignKey: 'userId',
 			onDelete: 'CASCADE',
 			onUpdate: 'CASCADE',
-		})
+		});
 	};
 
 	return users;

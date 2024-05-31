@@ -9,7 +9,7 @@ const activityLogsModel = (sequelize, DataTypes) => {
 		userId: {
 			type: DataTypes.STRING,
 			allowNull: false,
-            references: {
+			references: {
 				model: 'users',
 				key: 'id',
 			},
