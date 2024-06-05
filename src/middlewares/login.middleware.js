@@ -15,7 +15,7 @@ const validateloginData = (req, res, next) => {
 	next();
 };
 
-const verifyJWT = async (req, res, next) => {
+const verifyAccessTokenJWT = async (req, res, next) => {
 	const authHeader = req.headers.authorization;
 	if (!authHeader) {
 		return res.status(401).json({ message: 'Token not provided' });
@@ -40,10 +40,15 @@ const verifyJWT = async (req, res, next) => {
 	}
 
 	jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-		if (err)
+		if (err) {
 			return res
 				.status(401)
 				.json({ message: 'unauthenticated user - Invalid or expired token' });
+		}
+
+		if (decoded.type !== 'access') {
+            return res.status(401).json({ message: 'Invalid token type' });
+        }
 
 		req.userId = decoded.id;
 		
@@ -53,5 +58,5 @@ const verifyJWT = async (req, res, next) => {
 
 module.exports = {
 	validateloginData,
-	verifyJWT,
+	verifyAccessTokenJWT,
 };

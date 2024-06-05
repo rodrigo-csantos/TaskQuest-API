@@ -7,26 +7,26 @@ const {
 	validateTaskstatus,
 } = require('../middlewares/taskHandlers.middleware');
 
-const { verifyJWT } = require('../middlewares/login.middleware');
+const { verifyAccessTokenJWT } = require('../middlewares/login.middleware');
 
-router.get('/tasks', verifyJWT, controllerTaskHandlers.listAllTasks);
+router.get('/tasks', verifyAccessTokenJWT, controllerTaskHandlers.listAllTasks);
 
-router.get('/task/:id', verifyJWT, controllerTaskHandlers.taskDetails);
+router.get('/task/:id', verifyAccessTokenJWT, controllerTaskHandlers.taskDetails);
 
 router.post(
 	'/task',
-	verifyJWT,
+	verifyAccessTokenJWT,
 	validateTaskData,
 	controllerTaskHandlers.createTask,
 );
 
 router.put(
 	'/task/:id',
-	verifyJWT,
+	verifyAccessTokenJWT,
 	validateTaskstatus,
 	controllerTaskHandlers.updateTaskStatus,
 );
 
-router.delete('/task/:id', verifyJWT, controllerTaskHandlers.deleteTask);
+router.delete('/task/:id', verifyAccessTokenJWT, controllerTaskHandlers.deleteTask);
 
 module.exports = router;

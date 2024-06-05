@@ -2,6 +2,14 @@ require('dotenv').config();
 const { users, JWTBlockLists } = require('../models');
 const jwt = require('jsonwebtoken');
 
+const generateAccessToken = (user) => {
+	return jwt.sign({ ...user, type: 'access' }, process.env.JWT_SECRET, { expiresIn: '15m' });
+ }
+
+ const generateRefreshToken = (user) => {
+	return jwt.sign({ ...user, type: 'refresh' }, process.env.JWT_SECRET, { expiresIn: '1d' });
+ }
+
 const login = async (email, password) => {
 	const loggedUser = await users.findOne({
 		where: { email: email, password: password },
@@ -10,9 +18,10 @@ const login = async (email, password) => {
 		throw new Error('Invalid email or password');
 	}
 
-	const payload = { id: loggedUser.id, email: loggedUser.email };
-	const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '15m' });
-	return { loggedUser, token };
+	const user = { id: loggedUser.id, email: loggedUser.email };
+	const accessToken = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
+	return { loggedUser, accessToken, refreshToken };
 };
 
 const logout = async (token) => {
