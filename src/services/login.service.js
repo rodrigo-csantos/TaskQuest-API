@@ -33,7 +33,7 @@ const logout = async (token) => {
 	return loggedOutUser ? loggedOutUser : null;
 };
 
-const refreshLogin = async (token, userId) => {
+const refreshLogin = async (accessJWT, refreshJWT, userId) => {
 	const userFound = await users.findByPk(userId, {
 		attributes: { exclude: ['password'] },
 	});
@@ -42,7 +42,8 @@ const refreshLogin = async (token, userId) => {
 		throw new Error('User not found');
 	}
 
-	await JWTBlockLists.create({ token: token });
+	await JWTBlockLists.create({ token: accessJWT });
+	await JWTBlockLists.create({ token: refreshJWT });
 
 	const user = { id: userFound.id, email: userFound.email };
 	const accessToken = generateAccessToken(user);

@@ -74,6 +74,8 @@ const verifyAccessTokenJWT = async (req, res, next) => {
 };
 
 const verifyRefreshTokenJWT = async (req, res, next) => {
+	const authHeader = req.headers.authorization;
+	const accessToken = authHeader.split(' ')[1];
 	const refreshToken = req.headers['x-refresh-token'];
 	try {
 		const decoded = await verifyToken(
@@ -83,6 +85,7 @@ const verifyRefreshTokenJWT = async (req, res, next) => {
 		);
 		req.userId = decoded.id;
 		req.refreshToken = decoded.token;
+		req.token = accessToken;
 		next();
 	} catch (error) {
 		return res.status(401).json({ message: error.message });

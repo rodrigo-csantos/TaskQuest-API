@@ -20,7 +20,7 @@ const taskDetails = async (id) => {
 const createTask = async (taskData) => {
 	try {
 		const newTask = await tasks.create(taskData);
-		await logActivity(taskData.owner, 'CREATE', newTask.id);
+		await logActivity(newTask.owner, 'CREATE', newTask.id);
 		return newTask;
 	} catch (error) {
 		console.error('Error creating task:', error);
@@ -32,11 +32,10 @@ const updateTaskStatus = async (taskStatus, id) => {
 	try {
 		const taskUpdated = await tasks.findOne({
 			where: { id },
-			include: { model: users },
 		});
 		taskUpdated.status = taskStatus;
 		await taskUpdated.save();
-		await logActivity(taskUpdated.user.id, 'UPDATE', id);
+		await logActivity(taskUpdated.owner, 'UPDATE', id);
 		return taskUpdated;
 	} catch (error) {
 		console.error('Error updating task:', error);

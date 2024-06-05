@@ -34,11 +34,13 @@ exports.logout = async (req, res) => {
 
 exports.refreshLogin = async (req, res) => {
 	try {
-		const token = req.refreshToken;
+		const accessJWT = req.token
+		const refreshJWT = req.refreshToken;
 		const userId = req.userId;
 
 		const { accessToken, refreshToken } = await serviceLogin.refreshLogin(
-			token,
+			accessJWT,
+			refreshJWT,
 			userId,
 		);
 
