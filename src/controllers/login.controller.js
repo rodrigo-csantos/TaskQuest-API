@@ -2,13 +2,16 @@ const serviceLogin = require('../services/login.service');
 
 exports.login = async (req, res) => {
 	try {
-		const { token } = await serviceLogin.login(
+		const { accessToken, refreshToken } = await serviceLogin.login(
 			req.body.email,
 			req.body.password,
 		);
-		return res
-			.status(200)
-			.json({ auth: true, token, message: 'user successfully logged in' });
+		return res.status(200).json({
+			auth: true,
+			accessToken,
+			refreshToken,
+			message: 'user successfully logged in',
+		});
 	} catch (error) {
 		res
 			.status(401)
@@ -26,5 +29,28 @@ exports.logout = async (req, res) => {
 		return res.status(200).json({ message: 'user successfully logged out' });
 	} catch (error) {
 		res.status(500).json({ message: error });
+	}
+};
+
+exports.refreshLogin = async (req, res) => {
+	try {
+		const token = req.refreshToken;
+		const userId = req.userId;
+
+		const { accessToken, refreshToken } = await serviceLogin.refreshLogin(
+			token,
+			userId,
+		);
+
+		return res.status(200).json({
+			auth: true,
+			accessToken,
+			refreshToken,
+			message: 'Tokens successfully refreshed',
+		});
+	} catch (error) {
+		return res
+			.status(500)
+			.json({ message: 'Failed to refresh tokens', error: error.message });
 	}
 };

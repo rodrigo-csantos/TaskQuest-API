@@ -15,48 +15,82 @@ const validateloginData = (req, res, next) => {
 	next();
 };
 
-const verifyAccessTokenJWT = async (req, res, next) => {
-	const authHeader = req.headers.authorization;
-	if (!authHeader) {
-		return res.status(401).json({ message: 'Token not provided' });
+const verifyToken = async (token, secret, expectedType) => {
+	if (!token) {
+		throw new Error('Token not provided');
 	}
 
-	const tokenParts = authHeader.split(' ');
+	const tokenParts = token.split(' ');
 	if (tokenParts[0] !== 'Bearer' || tokenParts.length !== 2) {
-		return res.status(401).json({ message: 'Malformed token' });
+		throw new Error('Malformed token');
 	}
-
-	const token = tokenParts[1];
-	req.token = token;
+	const actualToken = tokenParts[1];
 
 	const blockListed = await JWTBlockLists.findOne({
-		where: { token: token },
+		where: { token: actualToken },
 	});
-
 	if (blockListed) {
-		return res
-			.status(401)
-			.json({ message: 'unauthenticated user - Invalid token' });
+		throw new Error('Unauthenticated user - Invalid token');
 	}
 
-	jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-		if (err) {
-			return res
-				.status(401)
-				.json({ message: 'unauthenticated user - Invalid or expired token' });
+	try {
+		const decoded = jwt.verify(actualToken, secret);
+
+		if (decoded.type !== expectedType) {
+			throw new Error('Invalid token type');
 		}
 
-		if (decoded.type !== 'access') {
-            return res.status(401).json({ message: 'Invalid token type' });
-        }
+		decoded.token = actualToken;
 
+		return decoded;
+	} catch (err) {
+		if (err.name === 'TokenExpiredError') {
+			throw new Error('Token expired');
+		}
+
+		if (err.name === 'JsonWebTokenError') {
+			throw new Error('Invalid token');
+		}
+
+		throw new Error('Token verification failed');
+	}
+};
+
+const verifyAccessTokenJWT = async (req, res, next) => {
+	const authHeader = req.headers.authorization;
+
+	try {
+		const decoded = await verifyToken(
+			authHeader,
+			process.env.JWT_SECRET,
+			'access',
+		);
 		req.userId = decoded.id;
-		
+		req.token = decoded.token;
 		next();
-	});
+	} catch (error) {
+		return res.status(401).json({ message: error.message });
+	}
+};
+
+const verifyRefreshTokenJWT = async (req, res, next) => {
+	const refreshToken = req.headers['x-refresh-token'];
+	try {
+		const decoded = await verifyToken(
+			refreshToken,
+			process.env.JWT_SECRET,
+			'refresh',
+		);
+		req.userId = decoded.id;
+		req.refreshToken = decoded.token;
+		next();
+	} catch (error) {
+		return res.status(401).json({ message: error.message });
+	}
 };
 
 module.exports = {
 	validateloginData,
 	verifyAccessTokenJWT,
+	verifyRefreshTokenJWT,
 };

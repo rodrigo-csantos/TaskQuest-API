@@ -11,7 +11,11 @@ const { verifyAccessTokenJWT } = require('../middlewares/login.middleware');
 
 router.get('/tasks', verifyAccessTokenJWT, controllerTaskHandlers.listAllTasks);
 
-router.get('/task/:id', verifyAccessTokenJWT, controllerTaskHandlers.taskDetails);
+router.get(
+	'/task/:id',
+	verifyAccessTokenJWT,
+	controllerTaskHandlers.taskDetails,
+);
 
 router.post(
 	'/task',
@@ -27,6 +31,10 @@ router.put(
 	controllerTaskHandlers.updateTaskStatus,
 );
 
-router.delete('/task/:id', verifyAccessTokenJWT, controllerTaskHandlers.deleteTask);
+router.delete(
+	'/task/:id',
+	verifyAccessTokenJWT,
+	controllerTaskHandlers.deleteTask,
+);
 
 module.exports = router;
