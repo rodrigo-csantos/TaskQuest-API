@@ -28,9 +28,14 @@ const login = async (email, password) => {
 	return { accessToken, refreshToken };
 };
 
-const logout = async (token) => {
-	const loggedOutUser = await JWTBlockLists.create({ token: token });
-	return loggedOutUser ? loggedOutUser : null;
+const logout = async (accessToken, refreshToken) => {
+	try {
+		await JWTBlockLists.create({ token: accessToken });
+		await JWTBlockLists.create({ token: refreshToken });
+		return true
+	} catch (error) {
+		return false
+	}
 };
 
 const refreshLogin = async (accessJWT, refreshJWT, userId) => {
