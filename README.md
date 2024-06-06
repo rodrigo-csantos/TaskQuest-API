@@ -58,6 +58,119 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
           npx sequelize db:migrate
           ```
 
-## Scripts Disponíveis
+
+# Endpoints da aplicação 
+
+## 1. Endpoint para Cadastro de Usuário
+
+**Método:** `POST`  
+**URL:** `http://localhost:3030/users`
+
+**Cabeçalhos (Headers):**
+- `Content-Type: application/json`
+
+**Corpo da Requisição (JSON):**
+```json
+{
+  "userName": "Nome_do_usuário",
+  "email": "usuario@example.com",
+  "password": "Senha123@",
+  "idAvatar": 1
+}
+```
+**Validação dos dados:**
+- Os dados do corpo da requisição são validados usando o seguinte esquema:
+
+`userName` (string, obrigatório): Nome do usuário. Deve ter no mínimo 3 caracteres.
+
+`email` (string, obrigatório): Email do usuário. Deve ser um email válido.
+
+`password` (string, obrigatório): Senha do usuário. Deve ter entre 8 e 15 caracteres, incluindo pelo menos uma letra maiúscula, um número e um caractere especial.
+
+`idAvatar` (integer, obrigatório): ID do avatar do usuário.
+
+**Respostas:**
+
+`201 Created:` Indica que o usuário foi registrado com sucesso:
+```json
+{
+    "message": "user successfully registered"
+}
+```
+
+`400 Bad request:` Indica que houve um problema com os dados fornecidos na requisição:
+```json
+{
+    "message": "Failed to register user"
+}
+```
+
+`400 Bad request:` Caso haja erros de validação:
+```json
+{
+    "message": "Validation error",
+    "details": [
+        "userName is required and should have at least 3 characters",
+        "email must be a valid email",
+        "password must be between 8 and 15 characters long, include at least one uppercase letter, one number, and one special character",
+        "idAvatar must be an integer"
+    ]
+}
+```
+
+`500 Internal Server Error:`  Indica que ocorreu um erro no servidor durante o processamento da requisição:
+```json
+{
+    "message": "Internal Server Error"
+}
+```
+
+
+## 2. Endpoint para Login
+
+**Método:** `POST`  
+**URL:** `http://localhost:3030/login`
+
+**Cabeçalhos (Headers):**
+- `Content-Type: application/json`
+
+**Corpo da Requisição (JSON):**
+```json
+{
+  "email": "usuario@example.com",
+  "password": "Senha123@"
+}
+
+```
+**Validação dos dados:**
+- Os dados do corpo da requisição são validados usando o seguinte esquema:
+
+`email` (string, obrigatório): Email do usuário. Deve ser um email válido.
+
+`password` (string, obrigatório): Senha do usuário. Deve ter entre 8 e 15 caracteres, incluindo pelo menos uma letra maiúscula, um número e um caractere especial.
+
+**Respostas:**
+
+`200 OK:` Indica que o usuário foi autenticado com sucesso e recebeu os tokens de acesso e refresh:
+```json
+{
+    "auth": true,
+    "accessToken": "seu_token_de_acesso",
+    "refreshToken": "seu_refresh_token",
+    "message": "user successfully logged in"
+}
+```
+
+`401 Unauthorized:` Indica que os dados fornecidos estão incorretos:
+```json
+{
+  "message": "The email or password provided is incorrect"
+}
+```
+
+
+
+
+# Scripts Disponíveis
 
 - `npm start`: Inicia o servidor.
