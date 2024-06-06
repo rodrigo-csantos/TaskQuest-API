@@ -59,9 +59,10 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
           ```
 
 
-# Endpoints da aplicação 
+# Endpoints da aplicação
 
-## 1. Endpoint para Cadastro de Usuário
+<details>
+<summary><strong style="font-size: larger;">1. Endpoint para Cadastro de Usuário</strong></summary><br />
 
 **Método:** `POST`  
 **URL:** `http://localhost:3030/users`
@@ -124,9 +125,12 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
     "message": "Internal Server Error"
 }
 ```
+</details>
 
+<details>
 
-## 2. Endpoint para Login
+<summary><strong style="font-size: larger;">2. Endpoint para Login</strong></summary><br />
+
 
 **Método:** `POST`  
 **URL:** `http://localhost:3030/login`
@@ -167,9 +171,10 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
   "message": "The email or password provided is incorrect"
 }
 ```
+</details>
 
 
-
+<br />
 
 # Scripts Disponíveis
 
