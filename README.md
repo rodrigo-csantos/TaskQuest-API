@@ -197,12 +197,49 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 - `authorization: Brarer <accessToken>`
 - `x-refresh-token: Bearer <refreshToken>`
 
+<br />
+
+**Validação dos tokens:**
+- O tokens são validados seguindo o seguinte esquema:
+
+`headers` o token de acesso deve ser passado através do header 'authorization' e o refresh token através do header 'x-refresh-token'
+
+`validações` os tokens serão verificados nos seguintes cenários: a presença do token no cabeçalho, se a conformação está correta com a presença do 'Bearer' (`Bearer <token>`), se o token já foi invalidado e adicionado a blocklist e se está inválido ou expirado.
+
 **Respostas:**
 
 `200 OK:` Indica que o usuário foi deslogado com sucesso e os tokens foram invalidados:
 ```json
 {
     "message": "user successfully logged out"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a ausência do token:
+```json
+{
+    "message": "Token not provided"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a forma não padrão que o token foi enviado:
+```json
+{
+    "message": "Malformed token"
+}
+```
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido token já invalidado na blocklist:
+```json
+{
+    "message": "Unauthenticated user - Invalid token"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido token invalido ou expirado:
+```json
+{
+    "message": "Token expired",
+    "message": "Invalid token"
 }
 ```
 
@@ -230,6 +267,13 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 - `authorization: Brarer <accessToken>`
 - `x-refresh-token: Bearer <refreshToken>`
 
+**Validação dos tokens:**
+- O tokens são validados seguindo o seguinte esquema:
+
+`headers` o token de acesso deve ser passado através do header 'authorization' e o refresh token através do header 'x-refresh-token'
+
+`validações` os tokens serão verificados nos seguintes cenários: a presença do token no cabeçalho, se a conformação está correta com a presença do 'Bearer' (`Bearer <token>`), se o token já foi invalidado e adicionado a blocklist e se está inválido ou expirado.
+
 **Respostas:**
 
 `200 OK:` Indica que o tokens foiram renovados com sucesso e os anteriores foram invalidados:
@@ -239,6 +283,34 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 	"accessToken": "seu_token_de_acesso",
     "refreshToken": "seu_refresh_token",
 	"message": "Tokens successfully refreshed",
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a ausência do token:
+```json
+{
+    "message": "Token not provided"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a forma não padrão que o token foi enviado:
+```json
+{
+    "message": "Malformed token"
+}
+```
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido token já invalidado na blocklist:
+```json
+{
+    "message": "Unauthenticated user - Invalid token"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido token invalido ou expirado:
+```json
+{
+    "message": "Token expired",
+    "message": "Invalid token"
 }
 ```
 
