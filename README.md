@@ -64,6 +64,10 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 <details>
 <summary><strong style="font-size: larger;">1. Endpoint para Cadastro de Usuário</strong></summary><br />
 
+- Através deste endpoint será possível realizar o cadastro de novos usuários à aplicação, persistindo seus dados no banco.
+
+<br />
+
 **Método:** `POST`  
 **URL:** `http://localhost:3030/users`
 
@@ -131,6 +135,9 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 
 <summary><strong style="font-size: larger;">2. Endpoint para Login</strong></summary><br />
 
+- Através deste endpoint será possível efetuar login para autenticação de usuário, onde, quando efetuado login com sucesso a API retornará dois tokens, o token de acesso à rotas protegidas e o refresh token para reautenticação.
+
+<br />
 
 **Método:** `POST`  
 **URL:** `http://localhost:3030/login`
@@ -173,6 +180,76 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 ```
 </details>
 
+
+<details>
+
+<summary><strong style="font-size: larger;">3. Endpoint para Logout</strong></summary><br />
+
+- Através deste endpoint será possível efetuar logout da aplicação, invalidando os tokens que foram fornecidos ao client side. Deve-se atentar de aos headers 'authorization' (onde será fornecido o accessToken) e 'x-refresh-token' (onde será fornecido o refreshToken).
+
+<br />
+
+**Método:** `POST`  
+**URL:** `http://localhost:3030/logout`
+
+**Cabeçalhos (Headers):**
+- `Content-Type: application/json`
+- `authorization: Brarer <accessToken>`
+- `x-refresh-token: Bearer <refreshToken>`
+
+**Respostas:**
+
+`200 OK:` Indica que o usuário foi deslogado com sucesso e os tokens foram invalidados:
+```json
+{
+    "message": "user successfully logged out"
+}
+```
+
+`500 Internal Server Error:`  Indica que ocorreu um erro no servidor durante o processamento da requisição:
+```json
+{
+  "message": "Internal Server Error"
+}
+```
+</details>
+
+<details>
+
+<summary><strong style="font-size: larger;">4. Endpoint para Refresh Token</strong></summary><br />
+
+- Através deste endpoint será possível que o cliente obtenha novos tokens de acesso sem precisar solicitar que o usuário faça login novamente. Irá invalidar os tokens que foram fornecidos ao client side anteriomente e conceder novos tokens de acesso e de refresh. Deve-se atentar de aos headers 'authorization' (onde será fornecido o accessToken) e 'x-refresh-token' (onde será fornecido o refreshToken).
+
+<br />
+
+**Método:** `POST`  
+**URL:** `http://localhost:3030/refresh-login`
+
+**Cabeçalhos (Headers):**
+- `Content-Type: application/json`
+- `authorization: Brarer <accessToken>`
+- `x-refresh-token: Bearer <refreshToken>`
+
+**Respostas:**
+
+`200 OK:` Indica que o tokens foiram renovados com sucesso e os anteriores foram invalidados:
+```json
+{
+    "auth": true,
+	"accessToken": "seu_token_de_acesso",
+    "refreshToken": "seu_refresh_token",
+	"message": "Tokens successfully refreshed",
+}
+```
+
+`500 Internal Server Error:`  Indica que ocorreu um erro no servidor durante o processamento da requisição:
+```json
+{
+  "message": "Failed to refresh tokens",
+  "error": "Internal Server Error"
+}
+```
+</details>
 
 <br />
 
