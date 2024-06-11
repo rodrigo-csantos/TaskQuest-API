@@ -2,15 +2,20 @@ const serviceTaskHandlers = require('../services/taskHandlers.service');
 
 exports.listAllTasks = async (req, res) => {
 	const id = req.userId;
-	const allTasks = await serviceTaskHandlers.listAllTasks(id);
+	try {
+		const allTasks = await serviceTaskHandlers.listAllTasks(id);
 
-	if (allTasks === null) {
-		return res
-			.status(404)
-			.json({ message: 'User not found or no tasks available' });
+		if (allTasks === null) {
+			return res
+				.status(404)
+				.json({ message: 'No tasks available for this user' });
+		}
+
+		return res.status(200).json(allTasks);
+	} catch (error) {
+		return res.status(500).json({ message: 'Internal server error' });
 	}
-
-	return res.status(200).json(allTasks);
+	
 };
 
 exports.taskDetails = async (req, res) => {

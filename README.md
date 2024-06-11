@@ -188,7 +188,7 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 
 **Cabeçalhos (Headers):**
 - `Content-Type: application/json`
-- `authorization: Brarer <accessToken>`
+- `authorization: Bearer <accessToken>`
 - `x-refresh-token: Bearer <refreshToken>`
 
 <br />
@@ -258,7 +258,7 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 
 **Cabeçalhos (Headers):**
 - `Content-Type: application/json`
-- `authorization: Brarer <accessToken>`
+- `authorization: Bearer <accessToken>`
 - `x-refresh-token: Bearer <refreshToken>`
 
 **Validação dos tokens:**
@@ -313,6 +313,98 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 {
   "message": "Failed to refresh tokens",
   "error": "Internal Server Error"
+}
+```
+</details>
+
+<details>
+<summary><strong style="font-size: larger;">5. Endpoint para Listar Todas as Tarefas do Usuário</strong></summary><br />
+
+- Através deste endpoint será possível realizar a busca de todas as tarefas atribuídas ao usuário autenticado na aplicação.
+
+<br />
+
+**Método:** `GET`  
+**URL:** `http://localhost:3030/tasks`
+
+**Cabeçalhos (Headers):**
+- `Content-Type: application/json`
+- `authorization: Bearer <accessToken>`
+
+**Validação do token:**
+- O token de acesso é validado seguindo o seguinte esquema:
+
+`headers` o token de acesso deve ser passado através do header 'authorization'.
+
+`validações` os token será verificado nos seguintes cenários: a presença do token no cabeçalho, se a conformação está correta com a presença do 'Bearer' (`Bearer <token>`), se o token já foi invalidado e adicionado a blocklist e se está inválido ou expirado.
+
+**Respostas:**
+
+`200 OK:` Indica que a busca das tarefas associadas ao usuário autenticado foi completa com sucesso, retornando um array de objetos:
+```json
+
+[
+    {
+        "id": 1,
+        "taskName": "Nome_da_Tarefa",
+        "description": "Descrição_da_Tarefa",
+        "status": "done",
+        "owner": 1,
+        "createdAt": "2024-06-05T21:14:42.000Z",
+        "updatedAt": "2024-06-05T21:15:29.000Z"
+    },
+    {
+        "id": 2,
+        "taskName": "Nome_da_Tarefa",
+        "description": "Descrição_da_Tarefa",
+        "status": "todo",
+        "owner": 1,
+        "createdAt": "2024-06-05T21:14:49.000Z",
+        "updatedAt": "2024-06-05T21:14:49.000Z"
+    }
+]
+
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a ausência do token:
+```json
+{
+    "message": "Token not provided"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a forma não padrão que o token foi enviado:
+```json
+{
+    "message": "Malformed token"
+}
+```
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido token já invalidado na blocklist:
+```json
+{
+    "message": "Unauthenticated user - Invalid token"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido token invalido ou expirado:
+```json
+{
+    "message": "Token expired",
+    "message": "Invalid token"
+}
+```
+
+`404 Not Found:` Indica que durante a busca não foram encontradas tarefas associadas a este usuário:
+```json
+{
+    "message": "No tasks available for this user"
+}
+```
+
+`500 Internal Server Error:`  Indica que ocorreu um erro no servidor durante o processamento da requisição:
+```json
+{
+    "message": "Internal Server Error"
 }
 ```
 </details>
