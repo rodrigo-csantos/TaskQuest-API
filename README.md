@@ -46,16 +46,10 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
           JWT_SECRET=senha para assinatura do token JWT para autenticação
           ```
 
-    2. **Criar Banco de Dados no MySQL**:
-        - Execute o seguinte comando no terminal para criar o banco de dados usando o Sequelize:
+    2. **Criar Banco de Dados no MySQL e Executar Migrações**:
+        - Execute o seguinte comando no terminal para criar o banco e executar as migrações para criar as tabelas no banco de dados:
           ```bash
-          npx sequelize db:create
-          ```
-
-    3. **Executar Migrações**:
-        - Execute as migrações para criar as tabelas no banco de dados:
-          ```bash
-          npx sequelize db:migrate
+          npm run build:database
           ```
 
 
@@ -328,3 +322,4 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 # Scripts Disponíveis
 
 - `npm start`: Inicia o servidor.
+- `npm run build:database`: Inicia as configurações do banco de dados.

@@ -22,7 +22,7 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
 	try {
 		const accessToken = req.token;
-		const refreshToken = req.refreshToken
+		const refreshToken = req.refreshToken;
 		const lockedToken = await serviceLogin.logout(accessToken, refreshToken);
 		if (!lockedToken) {
 			return res.status(400).json({ message: 'Error when logging out' });
@@ -35,7 +35,7 @@ exports.logout = async (req, res) => {
 
 exports.refreshLogin = async (req, res) => {
 	try {
-		const accessJWT = req.token
+		const accessJWT = req.token;
 		const refreshJWT = req.refreshToken;
 		const userId = req.userId;
 

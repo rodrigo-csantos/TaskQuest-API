@@ -32,9 +32,9 @@ const logout = async (accessToken, refreshToken) => {
 	try {
 		await JWTBlockLists.create({ token: accessToken });
 		await JWTBlockLists.create({ token: refreshToken });
-		return true
+		return true;
 	} catch (error) {
-		return false
+		return false;
 	}
 };
 
