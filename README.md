@@ -330,13 +330,14 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 **Cabeçalhos (Headers):**
 - `Content-Type: application/json`
 - `authorization: Bearer <accessToken>`
+- `x-refresh-token: Bearer <refreshToken>`
 
-**Validação do token:**
-- O token de acesso é validado seguindo o seguinte esquema:
+**Validação dos tokens:**
+- O tokens são validados seguindo o seguinte esquema:
 
-`headers` o token de acesso deve ser passado através do header 'authorization'.
+`headers` o token de acesso deve ser passado através do header 'authorization' e o refresh token através do header 'x-refresh-token'
 
-`validações` os token será verificado nos seguintes cenários: a presença do token no cabeçalho, se a conformação está correta com a presença do 'Bearer' (`Bearer <token>`), se o token já foi invalidado e adicionado a blocklist e se está inválido ou expirado.
+`validações` os tokens serão verificados nos seguintes cenários: a presença do token no cabeçalho, se a conformação está correta com a presença do 'Bearer' (`Bearer <token>`), se o token já foi invalidado e adicionado a blocklist e se está inválido ou expirado.
 
 **Respostas:**
 
