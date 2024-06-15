@@ -53,7 +53,7 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
           ```
 
 
-# Endpoints da aplicação (clique para abrir)
+## Endpoints da aplicação (clique para abrir)
 
 <details>
 <summary><strong style="font-size: larger;">1. Endpoint para Cadastro de Usuário</strong></summary><br />
@@ -536,7 +536,7 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 
 <br />
 
-# Scripts Disponíveis
+## Scripts Disponíveis
 
 - `npm start`: Inicia o servidor.
 - `npm run build:database`: Inicia as configurações do banco de dados.
