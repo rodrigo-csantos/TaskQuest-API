@@ -107,13 +107,18 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 `400 Bad request:` Caso haja erros de validação:
 ```json
 {
-    "message": "Validation error",
-    "details": [
-        "userName is required and should have at least 3 characters",
-        "email must be a valid email",
-        "password must be between 8 and 15 characters long, include at least one uppercase letter, one number, and one special character",
-        "idAvatar must be an integer"
-    ]
+  "type": [
+    "any.required",
+    "any.required",
+    "any.required",
+    "any.required"
+  ],
+  "message": [
+    "\"userName\" is required",
+    "\"email\" is required",
+    "\"password\" is required",
+    "\"idAvatar\" is required"
+  ]
 }
 ```
 
@@ -399,6 +404,125 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 ```json
 {
     "message": "No tasks available for this user"
+}
+```
+
+`500 Internal Server Error:`  Indica que ocorreu um erro no servidor durante o processamento da requisição:
+```json
+{
+    "message": "Internal Server Error"
+}
+```
+</details>
+
+<details>
+<summary><strong style="font-size: larger;">6. Endpoint para Criar uma Tarefa</strong></summary><br />
+
+- Através deste endpoint será possível criar uma nova tarefa.
+
+<br />
+
+**Método:** `POST`  
+**URL:** `http://localhost:3030/task`
+
+**Cabeçalhos (Headers):**
+- `Content-Type: application/json`
+- `authorization: Bearer <accessToken>`
+- `x-refresh-token: Bearer <refreshToken>`
+
+**Corpo da Requisição (JSON):**
+```json
+{
+    "taskName": "Título_da_tarefa",
+    "description": "Descrição_da_tarefa",
+    "status": "todo"
+}
+
+```
+
+**Validação dos tokens:**
+- O tokens são validados seguindo o seguinte esquema:
+
+`headers` o token de acesso deve ser passado através do header 'authorization' e o refresh token através do header 'x-refresh-token'
+
+`validações` os tokens serão verificados nos seguintes cenários: a presença do token no cabeçalho, se a conformação está correta com a presença do 'Bearer' (`Bearer <token>`), se o token já foi invalidado e adicionado a blocklist e se está inválido ou expirado.
+
+**Validação dos dados:**
+- Os dados do corpo da requisição são validados usando o seguinte esquema:
+
+`taskName` (string, obrigatório): Título da tarefa, deve estar presente no corpo e ser uma string.
+
+`description` (string, obrigatório): Descrição da tarefa, deve estar presente no corpo e ser uma string.
+
+`status` (string, obrigatório): Status da tarefa, deve estar presente no corpo e ser uma string.
+
+**Respostas:**
+
+`201 Created:` Indica que a tarefa foi criada com sucesso, retornando um objeto com a nova tarefa:
+```json
+
+[
+    {
+        "createdAt": "2024-06-15T20:25:00.148Z",
+        "updatedAt": "2024-06-15T20:25:00.149Z",
+        "id": 3,
+        "taskName": "Título_da_tarefa",
+        "description": "Descrição_da_tarefa",
+        "status": "todo",
+        "owner": 1
+    }
+]
+
+```
+
+`400 Bad request:` Caso haja erros de validação:
+```json
+{
+  "type": [
+    "any.required",
+    "any.required",
+    "any.required"
+  ],
+  "message": [
+    "\"taskName\" is required",
+    "\"description\" is required",
+    "\"status\" is required"
+  ]
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a ausência do token:
+```json
+{
+    "message": "Token not provided"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a forma não padrão que o token foi enviado:
+```json
+{
+    "message": "Malformed token"
+}
+```
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido token já invalidado na blocklist:
+```json
+{
+    "message": "Unauthenticated user - Invalid token"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido token invalido ou expirado:
+```json
+{
+    "message": "Token expired",
+    "message": "Invalid token"
+}
+```
+
+`404 Not Found:` Indica que ocorreu um erro durante a criação e persistência dos dados da tarefa no banco:
+```json
+{
+    "message": "Failed to create task"
 }
 ```
 
