@@ -1,8 +1,8 @@
 {
-  "name": "app-mysql",
+  "name": "taskquest_api",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API for administering a task manager, the application is designed to support creating, reading, updating and deleting tasks, as well as creating and authenticating users, providing a comprehensive solution for efficient task management.",
+  "main": "server.js",
   "scripts": {
     "build:database": "npx sequelize db:create && npx sequelize db:migrate",
     "start": "node src/server.js",
@@ -10,7 +10,7 @@
     "biome": "npx @biomejs/biome format --write ./src && npx @biomejs/biome lint --apply ./src"
   },
   "keywords": [],
-  "author": "",
+  "author": "Rodrigo Santos Coelho da Silva",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.5",
