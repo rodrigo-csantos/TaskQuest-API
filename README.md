@@ -460,19 +460,15 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 
 `201 Created:` Indica que a tarefa foi criada com sucesso, retornando um objeto com a nova tarefa:
 ```json
-
-[
-    {
-        "createdAt": "2024-06-15T20:25:00.148Z",
-        "updatedAt": "2024-06-15T20:25:00.149Z",
-        "id": 3,
-        "taskName": "Título_da_tarefa",
-        "description": "Descrição_da_tarefa",
-        "status": "todo",
-        "owner": 1
-    }
-]
-
+{
+    "createdAt": "2024-06-15T20:25:00.148Z",
+    "updatedAt": "2024-06-15T20:25:00.149Z",
+    "id": 3,
+    "taskName": "Título_da_tarefa",
+    "description": "Descrição_da_tarefa",
+    "status": "todo",
+    "owner": 1
+}
 ```
 
 `400 Bad request:` Caso haja erros de validação:
@@ -552,7 +548,7 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 **Corpo da Requisição (JSON):**
 ```json
 {
-    "status": "todo"
+    "status": "done"
 }
 
 ```
@@ -573,13 +569,9 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 
 `200 OK:` Indica que a tarefa foi atualizada com sucesso:
 ```json
-
-[
-    {
-        "message": "task updated successfully"
-    }
-]
-
+{
+    "message": "task updated successfully"
+}
 ```
 
 `400 Bad request:` Caso haja erros de validação:
@@ -663,13 +655,9 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 
 `200 OK:` Indica que a tarefa foi atualizada com sucesso:
 ```json
-
-[
-    {
-        "message": "task updated successfully"
-    }
-]
-
+{
+    "message": "task updated successfully"
+}
 ```
 
 `401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a ausência do token:
