@@ -534,6 +534,187 @@ Trata-se de uma ferramenta com uma API e um banco de dados para a gestão de tar
 ```
 </details>
 
+<details>
+<summary><strong style="font-size: larger;">7. Endpoint para Atualizar Status de uma Tarefa</strong></summary><br />
+
+- Através deste endpoint será possível atualizar o status de uma tarefa.
+
+<br />
+
+**Método:** `PUT`  
+**URL:** `http://localhost:3030/task/:id`
+
+**Cabeçalhos (Headers):**
+- `Content-Type: application/json`
+- `authorization: Bearer <accessToken>`
+- `x-refresh-token: Bearer <refreshToken>`
+
+**Corpo da Requisição (JSON):**
+```json
+{
+    "status": "todo"
+}
+
+```
+
+**Validação dos tokens:**
+- O tokens são validados seguindo o seguinte esquema:
+
+`headers` o token de acesso deve ser passado através do header 'authorization' e o refresh token através do header 'x-refresh-token'
+
+`validações` os tokens serão verificados nos seguintes cenários: a presença do token no cabeçalho, se a conformação está correta com a presença do 'Bearer' (`Bearer <token>`), se o token já foi invalidado e adicionado a blocklist e se está inválido ou expirado.
+
+**Validação dos dados:**
+- Os dados do corpo da requisição são validados usando o seguinte esquema:
+
+`status` (string, obrigatório): Status da tarefa, deve estar presente no corpo e ser uma string.
+
+**Respostas:**
+
+`200 OK:` Indica que a tarefa foi atualizada com sucesso:
+```json
+
+[
+    {
+        "message": "task updated successfully"
+    }
+]
+
+```
+
+`400 Bad request:` Caso haja erros de validação:
+```json
+{
+  "type": [
+    "any.required"
+  ],
+  "message": [
+    "\"status\" is required"
+  ]
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a ausência do token:
+```json
+{
+    "message": "Token not provided"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a forma não padrão que o token foi enviado:
+```json
+{
+    "message": "Malformed token"
+}
+```
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido token já invalidado na blocklist:
+```json
+{
+    "message": "Unauthenticated user - Invalid token"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido token invalido ou expirado:
+```json
+{
+    "message": "Token expired",
+    "message": "Invalid token"
+}
+```
+
+`404 Not Found:` Indica que ocorreu um erro durante a atualização da tarefa, onde a tarefa passada path da url da requisição não foi encontrada:
+```json
+{
+    "message": "task not found"
+}
+```
+
+`500 Internal Server Error:`  Indica que ocorreu um erro no servidor durante o processamento da requisição:
+```json
+{
+    "message": "Internal Server Error"
+}
+```
+</details>
+
+<details>
+<summary><strong style="font-size: larger;">8. Endpoint para Deletar uma Tarefa</strong></summary><br />
+
+- Através deste endpoint será possível excluir uma tarefa.
+
+<br />
+
+**Método:** `DELETE`  
+**URL:** `http://localhost:3030/task/:id`
+
+**Cabeçalhos (Headers):**
+- `Content-Type: application/json`
+- `authorization: Bearer <accessToken>`
+- `x-refresh-token: Bearer <refreshToken>`
+
+**Validação dos tokens:**
+- O tokens são validados seguindo o seguinte esquema:
+
+`headers` o token de acesso deve ser passado através do header 'authorization' e o refresh token através do header 'x-refresh-token'
+
+`validações` os tokens serão verificados nos seguintes cenários: a presença do token no cabeçalho, se a conformação está correta com a presença do 'Bearer' (`Bearer <token>`), se o token já foi invalidado e adicionado a blocklist e se está inválido ou expirado.
+
+**Respostas:**
+
+`200 OK:` Indica que a tarefa foi atualizada com sucesso:
+```json
+
+[
+    {
+        "message": "task updated successfully"
+    }
+]
+
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a ausência do token:
+```json
+{
+    "message": "Token not provided"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido a forma não padrão que o token foi enviado:
+```json
+{
+    "message": "Malformed token"
+}
+```
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido token já invalidado na blocklist:
+```json
+{
+    "message": "Unauthenticated user - Invalid token"
+}
+```
+
+`401 Unauthorized:` Indica que o usuário não está autenticado durante a validação devido token invalido ou expirado:
+```json
+{
+    "message": "Token expired",
+    "message": "Invalid token"
+}
+```
+
+`404 Not Found:` Indica que ocorreu um erro durante a atualização da tarefa, onde a tarefa passada path da url da requisição não foi encontrada:
+```json
+{
+    "message": "task not found"
+}
+```
+
+`500 Internal Server Error:`  Indica que ocorreu um erro no servidor durante o processamento da requisição:
+```json
+{
+    "message": "Internal Server Error"
+}
+```
+</details>
+
 <br />
 
 ## Scripts Disponíveis
